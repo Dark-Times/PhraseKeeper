@@ -1,6 +1,8 @@
 package com.hannah.phrasekeeper.objects;
 
-public class Phrase {
+import android.app.ListActivity;
+
+public class Phrase extends ListActivity {
     private String Phrase;
     private String Description;
 

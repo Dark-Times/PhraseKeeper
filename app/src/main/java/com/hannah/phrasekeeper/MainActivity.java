@@ -14,21 +14,26 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public MainActivity() {
-        Database db = new Database();
-        Phrase test = new Phrase("Help me", "I'm trapped in here");
-        Phrase test1 = new Phrase("Help me", "I'm trapped in here4");
-        Phrase test2 = new Phrase("Help me", "I'm trapped in here2");
-        db.add_new(test);
-        db.add_new(test1);
-        db.add_new(test2);
-        List<Phrase> phrases = db.fetch_phrases();
-        System.out.println(phrases);
+//        Database db = new Database();
+////        Phrase test = new Phrase("Help me", "I'm trapped in here");
+////        Phrase test1 = new Phrase("Help me", "I'm trapped in here4");
+////        Phrase test2 = new Phrase("Help me", "I'm trapped in here2");
+////        db.add_new(test);
+////        db.add_new(test1);
+////        db.add_new(test2);
+//        List<Phrase> phrases = db.fetch_phrases();
+//        System.out.println(phrases);
+
     }
 
     @Override
@@ -37,8 +42,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ListView list_of_phrases = (ListView) findViewById(R.id.list_of_phrases);
+        Database db = new Database();
+        List<Phrase> phrases = db.fetch_phrases();
+        List<String> items = new ArrayList<>();
+        for (Phrase phrase : phrases) {
+            items.add(phrase.getPhrase());
+        }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        // I dunno why this shit isn't working - even the sodding simplified string-only list examples online don't work here
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, R.id.list_of_phrases, items);
+        list_of_phrases.setAdapter(arrayAdapter);
+
+        FloatingActionButton fab = findViewById(R.id.add_new_phrase);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
