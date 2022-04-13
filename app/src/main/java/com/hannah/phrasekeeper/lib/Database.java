@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.hannah.phrasekeeper.objects.Phrase;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,26 +18,31 @@ public class Database {
     }
 
     public void add_new(Phrase phrase) {
-        String input = String.format("INSERT INTO Phrases(\"%s\", \"%s\");", phrase.getPhrase(), phrase.getDescription());
         String query = String.format("INSERT INTO `Phrases` (`Phrase`, `Description`) Values(\"%s\",\"%s\");", phrase.getPhrase(), phrase.getDescription());
         database.execSQL(query);
     }
 
-    public List<Phrase> fetch_phrases() {
+    public ArrayList<Phrase> fetch_phrases() {
         Cursor resultSet = database.rawQuery("Select * from Phrases", null);
 
-        List<Phrase> phrases = new ArrayList<>();
+        ArrayList<Phrase> phrases = new ArrayList<>();
         while (resultSet.moveToNext()) {
             String phrase = resultSet.getString(resultSet.getColumnIndex("Phrase"));
             String description = resultSet.getString(resultSet.getColumnIndex("Description"));
-            phrases.add(new Phrase(phrase, description));
+            Integer id = resultSet.getInt(resultSet.getColumnIndex("Id"));
+            phrases.add(new Phrase(phrase, description, id));
         }
 
         return phrases;
     }
 
+    public void delete_phrase(Phrase phrase) {
+
+    }
+
     private void create() {
+        //SQLiteDatabase.deleteDatabase(new File(db_name));
         database = SQLiteDatabase.openOrCreateDatabase(db_name, null);
-        database.execSQL("CREATE TABLE IF NOT EXISTS Phrases(Phrase VARCHAR(100),Description VARCHAR(100));");
+        database.execSQL("CREATE TABLE IF NOT EXISTS Phrases(Phrase VARCHAR(100),Description VARCHAR(100), Id integer primary key);");
     }
 }
