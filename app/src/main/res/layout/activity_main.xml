@@ -29,11 +29,10 @@
             android:id="@+id/add_new_phrase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
-            android:layout_centerHorizontal="true"
-            app:srcCompat="@android:drawable/ic_input_add"
             android:layout_alignParentBottom="true"
-            />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dip"
+            app:srcCompat="@android:drawable/ic_input_add" />
 
         <ListView
             android:id="@+id/list_of_phrases"

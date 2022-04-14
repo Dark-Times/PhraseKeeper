@@ -2,18 +2,14 @@ package com.hannah.phrasekeeper.objects;
 
 import android.app.ListActivity;
 
-import com.hannah.phrasekeeper.lib.DBPhrase;
-
 public class Phrase extends ListActivity {
     private String Phrase;
     private String Description;
     private Integer Id;
-    private DBPhrase dbPhrase;
 
     private void init(String phrase, String description) {
         setPhrase(phrase);
         setDescription(description);
-        dbPhrase = new DBPhrase(this);
     }
 
     public Phrase(String phrase, String description) {
@@ -47,13 +43,5 @@ public class Phrase extends ListActivity {
 
     public Integer getId() {
         return Id;
-    }
-
-    public void commit() {
-        dbPhrase.commit();
-    }
-
-    public void delete() {
-        dbPhrase.delete();
     }
 }
