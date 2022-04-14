@@ -80,11 +80,21 @@ public class PhraseDataBase implements IDatabase<Phrase> {
     @Override
     public boolean remove_item(Phrase phrase) {
         try {
-            mDb.execSQL("DELETE FROM 'Phrase' WHERE rowid =" + phrase.getId());
+            mDb.execSQL("DELETE FROM 'Phrases' WHERE rowid =" + phrase.getId());
         } catch (SQLException e) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Phrase getItem(int id) {
+        Cursor resultSet = mDb.rawQuery("SELECT * FROM 'Phrases' WHERE rowid='" + id+"'", null);
+        resultSet.moveToFirst();
+        String phrase = resultSet.getString(resultSet.getColumnIndex(COL_PHRASE_NAME));
+        String description = resultSet.getString(resultSet.getColumnIndex(COL_DESCRIPTION_NAME));
+
+        return new Phrase(phrase, description, id);
     }
 
     @Override
@@ -97,10 +107,6 @@ public class PhraseDataBase implements IDatabase<Phrase> {
             String description = resultSet.getString(resultSet.getColumnIndex(COL_DESCRIPTION_NAME));
             Integer id = resultSet.getInt(resultSet.getColumnIndex("rowid"));
             phrases.add(new Phrase(phrase, description, id));
-        }
-
-        if (phrases.isEmpty()) {
-            phrases.add(new Phrase("No Phrases Exist", ""));
         }
 
         return phrases;

@@ -3,6 +3,7 @@ package com.hannah.phrasekeeper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ListView list_of_phrases = (ListView) findViewById(R.id.list_of_phrases);
+
         phraseDB = new PhraseDataBase(this);
         phraseDB.open();
 
@@ -49,8 +52,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        list_of_phrases.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                viewPhraseIntent(view);
+            }
+        });
     }
 
+    public void viewPhraseIntent(View view) {
+        Intent viewPhraseIntent = new Intent(this, ViewPhraseActivity.class);
+        viewPhraseIntent.putExtra("ID", view.getTag().toString());
+        startActivity(viewPhraseIntent);
+    }
     public void addPhraseIntent(View view) {
         Intent addPhraseIntent = new Intent(this, AddPhraseActivity.class);
         startActivity(addPhraseIntent);
